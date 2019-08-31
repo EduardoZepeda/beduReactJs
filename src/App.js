@@ -24,7 +24,10 @@ class App extends React.Component {
     if(this.state.value.trim()){
       this.setState({
         value:'',
-        todos: [...this.state.todos, this.state.value.trim()]
+        todos: [...this.state.todos, {
+          value: this.state.value.trim(),
+          completed: false}
+        ]
       })
     }
   }
@@ -41,12 +44,19 @@ class App extends React.Component {
     })
   }
 
+  toggleCompleted = index => {
+    this.setState({
+      todos: this.state.todos.map((todo, i)=>
+        index === i ? {...todo, completed: !todo.completed} : todo
+    )
+    })
+  }
   render(){
     const listItems = this.state.todos.map((element, index)=>{
       return(
-        <ListItem button key={index}>
-          <Checkbox/>
-          <ListItemText primary={element}/>
+        <ListItem onClick = {()=>this.toggleCompleted(index)} button key={index}>
+          <Checkbox checked={element.completed}/>
+          <ListItemText primary={element.value}/>
           <ListItemSecondaryAction>
             <IconButton onClick={this.deleteTodo.bind(this, index)}>
               <DeleteIcon/>
