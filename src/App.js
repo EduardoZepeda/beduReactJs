@@ -1,15 +1,8 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import TextField from '@material-ui/core/TextField';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import ListItemText from '@material-ui/core/ListItemText';
-import Checkbox from '@material-ui/core/Checkbox';
-import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
-
+import TodoForm from './TodoForm';
+import ListItems from './ListItems';
 
 class App extends React.Component {
   constructor(props){
@@ -52,51 +45,25 @@ class App extends React.Component {
     })
   }
   render(){
-    const listItems = this.state.todos.map((element, index)=>{
-      return(
-        <ListItem onClick = {()=>this.toggleCompleted(index)} button key={index}>
-          <Checkbox checked={element.completed}/>
-          <ListItemText primary={element.value}/>
-          <ListItemSecondaryAction>
-            <IconButton onClick={this.deleteTodo.bind(this, index)}>
-              <DeleteIcon/>
-            </IconButton>
-          </ListItemSecondaryAction>
-        </ListItem>
-      )
-    })
     return(
       <React.Fragment>
         <Typography variant="h2" align="center" gutterBottom>Todo list</Typography>
         <Grid container justify="center">
           <Grid item>
-            <form onSubmit={e=>{
-              e.preventDefault()
-              this.saveTodo()
-            }}>
-              <TextField
-                type = "text"
-                placeholder="Add to do"
-                value = {this.state.value}
-                onChange = {this.updateValue}
-                />
-              </form>
+            <TodoForm
+              updateValue = {this.updateValue}
+              saveTodo = {this.saveTodo}
+              value = {this.state.value}
+            />
           </Grid>
         </Grid>
         <Grid container justify="center">
           <Grid item md={8}>
-          <List>
-            <ListItem button>
-              <Checkbox/>
-              <ListItemText primary="Check the prework!!!"/>
-              <ListItemSecondaryAction>
-                <IconButton>
-                  <DeleteIcon/>
-                </IconButton>
-              </ListItemSecondaryAction>
-            </ListItem>
-            {listItems}
-          </List>
+            <ListItems
+              todos = {this.state.todos}
+              toggleCompleted = {this.toggleCompleted}
+              deleteTodo = {this.deleteTodo}
+            />
           </Grid>
         </Grid>
       </React.Fragment>
