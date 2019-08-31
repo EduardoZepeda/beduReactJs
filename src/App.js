@@ -33,6 +33,14 @@ class App extends React.Component {
     this.setState({value: event.target.value})
   }
 
+  deleteTodo = index => {
+    const newTodos = [...this.state.todos]
+    newTodos.splice(index, 1)
+    this.setState({
+      todos: newTodos
+    })
+  }
+
   render(){
     const listItems = this.state.todos.map((element, index)=>{
       return(
@@ -40,7 +48,7 @@ class App extends React.Component {
           <Checkbox/>
           <ListItemText primary={element}/>
           <ListItemSecondaryAction>
-            <IconButton>
+            <IconButton onClick={this.deleteTodo.bind(this, index)}>
               <DeleteIcon/>
             </IconButton>
           </ListItemSecondaryAction>
